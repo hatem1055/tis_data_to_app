@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel= 'manifest' href= 'manifest.json' />
+
+  </head>
+  <body>
+
+    <p>Drive API Quickstart</p>
+
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <button onclick="listFiles()">load</button>
+
+    <pre id="content" style="white-space: pre-wrap"></pre>
+
+    <script type="text/javascript">
+        if ("serviceWorker" in navigator) {
+        // Use the window load event to keep the page load performant
+
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("./sw.js");
+        });
+        }
+      async function handleAuthClick() {
+
+        await listFiles();
+      }
+      async function listFiles() {
+        const folderId = '1zkwvY1nIcksQW9kyn58U8ZKlzYVP_leV'
+        const filesCheckerror = await get_files(folderId)
+        const files = filesCheckerror[0]
+        const checkError  = filesCheckerror[1]
+        if(checkError){
+          let content = ''
+          const output = files.map(
+            (file) => `<img src='${file.webContentLink}' /> <br/>`,
+          );
+          for(const o of output){
+              content += o
+          }
+          console.log(output)
+          document.getElementById("content").innerHTML = content;
+        }else{
+          document.getElementById("content").innerText = files;
+        }
+      }
+    </script>
+    <script src = "get_files_util.js"></script>
+    <script src = "set_google_client.js"></script>
+    <script
+      async
+      defer
+      src="https://apis.google.com/js/api.js"
+      onload="gapiLoaded()"
+    ></script>
+    <script
+      async
+      defer
+      src="https://accounts.google.com/gsi/client"
+      onload="gisLoaded()"
+    ></script>
+  </body>
+</html>
