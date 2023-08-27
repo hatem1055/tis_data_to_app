@@ -66,23 +66,23 @@
           }
         };
         async function loadFilesAndPopulateGrid() {
-        const folderId = '1zkwvY1nIcksQW9kyn58U8ZKlzYVP_leV';
-        const [files, checkError] = await get_files(folderId);
-        console.log([files,checkError])
-          
-        if (checkError) {
-          const imageGrid = document.getElementById('image-grid');
-          imageGrid.innerHTML = ''; // Clear the existing content
-          console.log(files)
-          for (const file of files) {
-              const img = document.createElement('img');
-              img.src = file.webContentLink;
-              img.alt = file.name;
-              img.classList.add('grid-item'); // Add a class for styling
-              imageGrid.appendChild(img)
+          const folderId = '1yvTTLd5oTOMspfGmGiNLjsFcFLTCTvnu';
+          const [files, checkError] = await get_files(folderId);
+          console.log([files,checkError])
+            
+          if (checkError) {
+            const imageGrid = document.getElementById('image-grid');
+            imageGrid.innerHTML = ''; // Clear the existing content
+            console.log(files)
+            for (const file of files) {
+                const img = document.createElement('img');
+                img.src = file.webContentLink;
+                img.alt = file.name;
+                img.classList.add('grid-item'); // Add a class for styling
+                imageGrid.appendChild(img)
+            }
           }
-        }
-        return checkError
+          return checkError
       }
 
       // Load files initially and then set up the interval to refresh every 30 seconds
