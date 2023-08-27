@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel= 'manifest' href= 'manifest.json' />
-    <link rel="stylesheet" href="bootstrap.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css" crossorigin="anonymous">
-
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Document</title>
+      <link rel='manifest' href='manifest.json' />
+      <link rel="stylesheet" href="bootstrap.css" crossorigin="anonymous">
+      <link rel="stylesheet" href="style.css" crossorigin="anonymous">
   </head>
   <body>
-    <div id="loading-screen" class="loading-screen">
+  <div id="loading-screen" class="loading-screen">
       <div class="spinner"></div>
       <p>Loading...</p>
-    </div>
-    
-    <div class = 'container'>
-        <div class = 'header row bg_primary'>
-            <div class="site_logo_wrapper col-4">
-               <img src = 'holcim_logo_white.svg' style="width: 109px;"/>
+  </div>
 
-            </div>
-    </div>
-    <div id="image-grid" class="responsive-grid"></div>
+  <div class='container'>
+      <div class='header row bg_primary'>
+          <div class="site_logo_wrapper col-6">
+              <img src='holcim_logo_white.svg' style="width: 109px;"/>
+          </div>
 
-
-    <pre id="content" style="white-space: pre-wrap"></pre>
+          <!-- Add the search container with input and icon -->
+          <div class="search-container col-6">
+              <input type="text" id="search-box" class="search-box" placeholder="Search by file name...">
+          </div>
+      </div>
+  </div>
+  <div id="image-grid" class="responsive-grid"></div>
+  <pre id="content" style="white-space: pre-wrap"></pre>
 
     <script type="text/javascript">
         let script1_loaded = false;
@@ -65,12 +67,35 @@
             }, 3000);
           }
         };
-        async function loadFilesAndPopulateGrid() {
-          const folderId = '1yvTTLd5oTOMspfGmGiNLjsFcFLTCTvnu';
-          const [files, checkError] = await get_files(folderId);
-          console.log([files,checkError])
-            
-          if (checkError) {
+        function performSearch() {
+        const searchPattern = document.getElementById("search-box").value.toLowerCase();
+        const gridItems = document.querySelectorAll('.grid-item');
+
+        gridItems.forEach(function (item) {
+            const fileName = item.alt.toLowerCase();
+
+            // Use a regular expression to test for a match
+            const regex = new RegExp(searchPattern, 'i'); // 'i' flag for case-insensitive matching
+            if (regex.test(fileName)) {
+                item.style.display = "block"; // Show matching items
+            } else {
+                item.style.display = "none"; // Hide non-matching items
+            }
+        });
+    }
+
+    // Add an event listener for keyup on the search box
+    document.getElementById("search-box").addEventListener("keyup", function () {
+        performSearch();
+    });
+
+    // Function to load files and populate the grid
+    async function loadFilesAndPopulateGrid() {
+        const folderId = '1yvTTLd5oTOMspfGmGiNLjsFcFLTCTvnu';
+        const [files, checkError] = await get_files(folderId);
+        console.log([files,checkError])
+        
+        if (checkError) {
             const imageGrid = document.getElementById('image-grid');
             imageGrid.innerHTML = ''; // Clear the existing content
             console.log(files)
@@ -81,9 +106,12 @@
                 img.classList.add('grid-item'); // Add a class for styling
                 imageGrid.appendChild(img)
             }
-          }
-          return checkError
-      }
+            
+            // After updating the grid, perform the search again
+            performSearch();
+        }
+        return checkError;
+    }
 
       // Load files initially and then set up the interval to refresh every 30 seconds
 // 30,000 milliseconds = 30 seconds

@@ -54,4 +54,31 @@ body{
     width: auto;
     height: auto;
   }
-      
+  .search-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-box {
+    flex-grow: 1;
+    padding: 0;
+    border: 2px solid transparent; /* Set the border to transparent initially */
+    border-radius: 5px;
+    font-size: 16px; /* Increase font size for better visibility */
+    outline: none; /* Remove the border outline on focus */
+    transition: border 0.3s; /* Smooth transition for border color */
+    background-color: transparent; /* Make the background transparent */
+    color: white;
+}
+
+
+/* Style the search box when focused */
+.search-box:focus {
+    border-color: #005836; /* Set the border color to your desired color on focus */
+}
+
+/* Style the placeholder text inside the search box */
+.search-box::placeholder {
+    color: white;
+}
