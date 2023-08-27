@@ -6,7 +6,7 @@
     "scope" : "./",
     "icons": [
     {
-        "src": "39003.png",
+        "src": "photo.jpg",
         "sizes": "250x250",
         "type": "image/png"
     }

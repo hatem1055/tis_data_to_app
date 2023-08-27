@@ -5,18 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel= 'manifest' href= 'manifest.json' />
+    <link rel="stylesheet" href="bootstrap.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css" crossorigin="anonymous">
 
   </head>
   <body>
+    <div id="loading-screen" class="loading-screen">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+    
+    <div class = 'container'>
+        <div class = 'header row bg_primary'>
+            <div class="site_logo_wrapper col-4">
+               <img src = 'holcim_logo_white.svg' style="width: 109px;"/>
 
-    <p>Drive API Quickstart</p>
+            </div>
+    </div>
+    <div id="image-grid" class="responsive-grid"></div>
 
-    <!--Add buttons to initiate auth sequence and sign out-->
-    <button onclick="listFiles()">load</button>
 
     <pre id="content" style="white-space: pre-wrap"></pre>
 
     <script type="text/javascript">
+        let script1_loaded = false;
+        let script2_loaded = false;
+
         if ("serviceWorker" in navigator) {
         // Use the window load event to keep the page load performant
 
@@ -24,29 +38,56 @@
             navigator.serviceWorker.register("./sw.js");
         });
         }
-      async function handleAuthClick() {
+        const onload1 = async function(){
+          gapiLoaded()
 
-        await listFiles();
-      }
-      async function listFiles() {
-        const folderId = '1zkwvY1nIcksQW9kyn58U8ZKlzYVP_leV'
-        const filesCheckerror = await get_files(folderId)
-        const files = filesCheckerror[0]
-        const checkError  = filesCheckerror[1]
-        if(checkError){
-          let content = ''
-          const output = files.map(
-            (file) => `<img src='${file.webContentLink}' /> <br/>`,
-          );
-          for(const o of output){
-              content += o
-          }
-          console.log(output)
-          document.getElementById("content").innerHTML = content;
-        }else{
-          document.getElementById("content").innerText = files;
+          script1_loaded =  true;
+          allloaded()
         }
+        const onload2 = async function(){
+          gisLoaded()
+
+          script2_loaded =  true;
+          allloaded()
+        }
+        // Add this code to your JavaScript
+        let allloaded = async function() {
+          // Hide the loading screen when everything has loaded
+          if(script1_loaded && script2_loaded){
+            console.log('loaded')
+            let check = await loadFilesAndPopulateGrid();
+            setInterval(async () => {
+              check = await loadFilesAndPopulateGrid()
+              const loader = document.getElementById("loading-screen");
+              if (check && loader.style.display != "none"){
+                document.getElementById("loading-screen").style.display = "none";
+              }
+            }, 3000);
+          }
+        };
+        async function loadFilesAndPopulateGrid() {
+        const folderId = '1zkwvY1nIcksQW9kyn58U8ZKlzYVP_leV';
+        const [files, checkError] = await get_files(folderId);
+        console.log([files,checkError])
+          
+        if (checkError) {
+          const imageGrid = document.getElementById('image-grid');
+          imageGrid.innerHTML = ''; // Clear the existing content
+          console.log(files)
+          for (const file of files) {
+              const img = document.createElement('img');
+              img.src = file.webContentLink;
+              img.alt = file.name;
+              img.classList.add('grid-item'); // Add a class for styling
+              imageGrid.appendChild(img)
+          }
+        }
+        return checkError
       }
+
+      // Load files initially and then set up the interval to refresh every 30 seconds
+// 30,000 milliseconds = 30 seconds
+
     </script>
     <script src = "get_files_util.js"></script>
     <script src = "set_google_client.js"></script>
@@ -54,13 +95,13 @@
       async
       defer
       src="https://apis.google.com/js/api.js"
-      onload="gapiLoaded()"
+      onload="onload1()"
     ></script>
     <script
       async
       defer
       src="https://accounts.google.com/gsi/client"
-      onload="gisLoaded()"
+      onload="onload2()"
     ></script>
   </body>
 </html>
