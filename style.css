@@ -8,6 +8,7 @@ body{
 }
 .header{
     padding: 5px;
+    overflow: hidden;
 }
 .site_logo_wrapper{
     display: flex;
