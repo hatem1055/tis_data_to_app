@@ -59,20 +59,24 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap; /* Allow items to wrap to the next line on small screens */
 }
 
+/* Style the search box */
 .search-box {
     flex-grow: 1;
     padding: 0;
-    border: 2px solid transparent; /* Set the border to transparent initially */
+    border: 2px solid transparent;
     border-radius: 5px;
-    font-size: 16px; /* Increase font size for better visibility */
-    outline: none; /* Remove the border outline on focus */
-    transition: border 0.3s; /* Smooth transition for border color */
-    background-color: transparent; /* Make the background transparent */
-    color: white;
+    font-size: 16px;
+    outline: none;
+    transition: border 0.3s;
+    background-color: transparent;
+    max-width: 100%; /* Limit the width to the container's width */
+    width: 100%; /* Ensure it takes the full width within the container */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+    color : white;
 }
-
 
 /* Style the search box when focused */
 .search-box:focus {
