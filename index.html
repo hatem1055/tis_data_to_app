@@ -1,135 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Document</title>
-      <link rel='manifest' href='manifest.json' />
-      <link rel="stylesheet" href="bootstrap.css" crossorigin="anonymous">
-      <link rel="stylesheet" href="style.css" crossorigin="anonymous">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="bootstrap.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="style.css" crossorigin="anonymous" />
+    <style>
+      /* Define button container styles */
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 67vh;
+        width: 80%;
+        margin: auto;
+        }
+
+      /* Define button styles */
+      .custom-button {
+        background-color: #005836; /* Initial background color */
+        color: white; /* Text color */
+        border: none; /* Remove the border */
+        padding: 10px 20px; /* Padding for the button */
+        cursor: pointer; /* Change cursor to pointer on hover */
+        transition: background-color 0.3s; /* Transition for background color */
+        width: 100%; /* Make the buttons take up 100% width of the container */
+        margin-bottom: 10px; /* Add some space between buttons */
+      }
+
+      /* Hover effect */
+      .custom-button:hover {
+        background-color: white; /* Change background color to white on hover */
+        color: #005836; /* Change text color to the original color on hover */
+      }
+    </style>
   </head>
   <body>
-  <div id="loading-screen" class="loading-screen">
-      <div class="spinner"></div>
-      <p>Loading...</p>
-  </div>
-
-  <div class='container'>
-      <div class='header row bg_primary'>
-          <div class="site_logo_wrapper col-6">
-              <img src='holcim_logo_white.svg' style="width: 109px;"/>
-          </div>
-
-          <!-- Add the search container with input and icon -->
-          <div class="search-container col-6">
-              <input type="text" id="search-box" class="search-box" placeholder="Search by file name...">
-          </div>
+    <div class="container">
+      <div class="header row bg_primary">
+        <div class="site_logo_wrapper col-6">
+          <img src="holcim_logo_white.svg" style="width: 109px;" />
+        </div>
       </div>
-  </div>
-  <div id="image-grid" class="responsive-grid"></div>
-  <pre id="content" style="white-space: pre-wrap"></pre>
+      <div class="row">
+        <div class="col">
+          <div class="button-container"> <!-- Center the buttons vertically -->
+            <!-- Button 1 with folderid=1 -->
+            <button onclick="redirectToShowPage('1307Ta6ZMrljaL5nKC8CuUmK4UVh5tPMI')" class="custom-button">DPR</button>
+            <!-- Button 2 with folderid=2 -->
+            <button onclick="redirectToShowPage('1jsH_-pkzFCyYl5XAUqjfxsP1l7VwLmgQ')" class="custom-button">Shell Scanner</button>
+            <!-- Button 3 with folderid=3 -->
+            <button onclick="redirectToShowPage('1AMDBS_CNXMbcRDuuUCcjBYsFMw7-eNJd')" class="custom-button">Tis Mimic</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <script type="text/javascript">
-        let script1_loaded = false;
-        let script2_loaded = false;
-
-        if ("serviceWorker" in navigator) {
-        // Use the window load event to keep the page load performant
-
-        window.addEventListener("load", () => {
-            navigator.serviceWorker.register("./sw.js");
-        });
-        }
-        const onload1 = async function(){
-          gapiLoaded()
-
-          script1_loaded =  true;
-          allloaded()
-        }
-        const onload2 = async function(){
-          gisLoaded()
-
-          script2_loaded =  true;
-          allloaded()
-        }
-        // Add this code to your JavaScript
-        let allloaded = async function() {
-          // Hide the loading screen when everything has loaded
-          if(script1_loaded && script2_loaded){
-            console.log('loaded')
-            let check = await loadFilesAndPopulateGrid();
-            setInterval(async () => {
-              check = await loadFilesAndPopulateGrid()
-              const loader = document.getElementById("loading-screen");
-              if (check && loader.style.display != "none"){
-                document.getElementById("loading-screen").style.display = "none";
-              }
-            }, 3000);
-          }
-        };
-        function performSearch() {
-        const searchPattern = document.getElementById("search-box").value.toLowerCase();
-        const gridItems = document.querySelectorAll('.grid-item');
-
-        gridItems.forEach(function (item) {
-            const fileName = item.alt.toLowerCase();
-
-            // Use a regular expression to test for a match
-            const regex = new RegExp(searchPattern, 'i'); // 'i' flag for case-insensitive matching
-            if (regex.test(fileName)) {
-                item.style.display = "block"; // Show matching items
-            } else {
-                item.style.display = "none"; // Hide non-matching items
-            }
-        });
-    }
-
-    // Add an event listener for keyup on the search box
-    document.getElementById("search-box").addEventListener("keyup", function () {
-        performSearch();
-    });
-
-    // Function to load files and populate the grid
-    async function loadFilesAndPopulateGrid() {
-        const folderId = '1yvTTLd5oTOMspfGmGiNLjsFcFLTCTvnu';
-        const [files, checkError] = await get_files(folderId);
-        console.log([files,checkError])
-        
-        if (checkError) {
-            const imageGrid = document.getElementById('image-grid');
-            imageGrid.innerHTML = ''; // Clear the existing content
-            console.log(files)
-            for (const file of files) {
-                const img = document.createElement('img');
-                img.src = file.webContentLink;
-                img.alt = file.name;
-                img.classList.add('grid-item'); // Add a class for styling
-                imageGrid.appendChild(img)
-            }
-            
-            // After updating the grid, perform the search again
-            performSearch();
-        }
-        return checkError;
-    }
-
-      // Load files initially and then set up the interval to refresh every 30 seconds
-// 30,000 milliseconds = 30 seconds
-
+    <script>
+      // JavaScript function to redirect to show.html with folderid parameter
+      function redirectToShowPage(folderid) {
+        // Redirect to show.html with the specified folderid
+        window.location.href = `show.html?folderid=${folderid}`;
+      }
     </script>
-    <script src = "get_files_util.js"></script>
-    <script src = "set_google_client.js"></script>
-    <script
-      async
-      defer
-      src="https://apis.google.com/js/api.js"
-      onload="onload1()"
-    ></script>
-    <script
-      async
-      defer
-      src="https://accounts.google.com/gsi/client"
-      onload="onload2()"
-    ></script>
   </body>
 </html>

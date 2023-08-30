@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Document</title>
+      <link rel='manifest' href='manifest.json' />
+      <link rel="stylesheet" href="bootstrap.css" crossorigin="anonymous">
+      <link rel="stylesheet" href="style.css" crossorigin="anonymous">
+  </head>
+  <body>
+  <div id="loading-screen" class="loading-screen">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+  </div>
+
+  <div class='container'>
+      <div class='header row bg_primary'>
+          <div class="site_logo_wrapper col-6">
+              <img src='holcim_logo_white.svg' style="width: 109px;"/>
+          </div>
+
+          <!-- Add the search container with input and icon -->
+          <div class="search-container col-6">
+              <input type="text" id="search-box" class="search-box" placeholder="Search by file name...">
+          </div>
+      </div>
+  </div>
+  <div id="image-grid" class="responsive-grid"></div>
+  <pre id="content" style="white-space: pre-wrap"></pre>
+
+    <script type="text/javascript">
+        let script1_loaded = false;
+        let script2_loaded = false;
+
+        if ("serviceWorker" in navigator) {
+        // Use the window load event to keep the page load performant
+
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("./sw.js");
+        });
+        }
+
+        const onload1 = async function(){
+          gapiLoaded()
+
+          script1_loaded =  true;
+          allloaded()
+        }
+        const onload2 = async function(){
+          gisLoaded()
+
+          script2_loaded =  true;
+          allloaded()
+        }
+        // Add this code to your JavaScript
+        let allloaded = async function() {
+          // Hide the loading screen when everything has loaded
+          if(script1_loaded && script2_loaded){
+            console.log('loaded')
+            let check = await loadFilesAndPopulateGrid();
+            setInterval(async () => {
+              check = await loadFilesAndPopulateGrid()
+              const loader = document.getElementById("loading-screen");
+              if (check && loader.style.display != "none"){
+                document.getElementById("loading-screen").style.display = "none";
+              }
+            }, 3000);
+          }
+        };
+
+    </script>
+    <script src = "peform_seach.js"></script>
+    <script src = "loadfiles.js"></script>
+    <script src = "get_files_util.js"></script>
+    <script src = "set_google_client.js"></script>
+    <script
+      async
+      defer
+      src="https://apis.google.com/js/api.js"
+      onload="onload1()"
+    ></script>
+    <script
+      async
+      defer
+      src="https://accounts.google.com/gsi/client"
+      onload="onload2()"
+    ></script>
+  </body>
+</html>
