@@ -12,6 +12,7 @@ async function loadFilesAndPopulateGrid() {
     if (checkError) {
         const imageGrid = document.getElementById('image-grid');
         imageGrid.innerHTML = ''; // Clear the existing content
+        files.sort((a, b) => a.name.localeCompare(b.name));
         console.log(files)
         for (const file of files) {
             const img = document.createElement('img');

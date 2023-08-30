@@ -44,15 +44,16 @@ body{
     100% { transform: rotate(360deg); }
   }
   .responsive-grid {
-    display: grid;
+    display: flex;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 10px;
     justify-items: center;
+    flex-direction: column;
   }
   .grid-item {
-    max-width: 100%;
+    width: 80%;
+    margin: auto;
     max-height: 100%;
-    width: auto;
     height: auto;
   }
   .search-container {
