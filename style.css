@@ -2,6 +2,7 @@ body{
     padding: 0;
     margin: 0;
 }
+
 .bg_primary{
     background-color: #005836;
     color : white;
@@ -9,6 +10,8 @@ body{
 .header{
     padding: 5px;
     overflow: hidden;
+    background: linear-gradient(92deg, #1197ba, #4df6f7);
+
 }
 .site_logo_wrapper{
     display: flex;

@@ -1,7 +1,7 @@
 
 {
-    "name": "Iplant",
-    "short_name" : "Iplant",
+    "name": "iPlant",
+    "short_name" : "iPlant",
     "start_url": "index.html",
     "scope" : "./",
     "icons": [
