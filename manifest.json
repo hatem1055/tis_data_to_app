@@ -1,7 +1,7 @@
 
 {
-    "name": "Lafarge PWA",
-    "short_name" : "PWA",
+    "name": "Iplant",
+    "short_name" : "Iplant",
     "start_url": "index.html",
     "scope" : "./",
     "icons": [
