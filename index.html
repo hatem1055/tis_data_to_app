@@ -68,7 +68,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
   deferredPrompt = e;
 
   // Show the custom installation button
-  document.getElementById('install-button').click();
+  document.getElementById('install-button').style.display = 'block';
 });
 
 document.getElementById('install-button').addEventListener('click', () => {
