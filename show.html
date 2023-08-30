@@ -33,13 +33,7 @@
         let script1_loaded = false;
         let script2_loaded = false;
 
-        if ("serviceWorker" in navigator) {
-        // Use the window load event to keep the page load performant
 
-        window.addEventListener("load", () => {
-            navigator.serviceWorker.register("./sw.js");
-        });
-        }
 
         const onload1 = async function(){
           gapiLoaded()
