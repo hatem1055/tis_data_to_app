@@ -51,58 +51,39 @@
             <button onclick="redirectToShowPage('1AMDBS_CNXMbcRDuuUCcjBYsFMw7-eNJd')" class="custom-button">Tis Mimic</button>
             <button onclick="redirectToShowPage('1jsH_-pkzFCyYl5XAUqjfxsP1l7VwLmgQ')" class="custom-button">Shell Scanner</button>
             <button onclick="redirectToShowPage('1307Ta6ZMrljaL5nKC8CuUmK4UVh5tPMI')" class="custom-button">DPR</button>
+            <button id="install-button" class="custom-button" style="display: none;">Install PWA</button> <!-- Add this button -->
+
           </div>
         </div>
       </div>
     </div>
 
     <script>
-      let deferredPrompt;
+let deferredPrompt;
 
-      window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent the browser's default install prompt
-        e.preventDefault();
-        // Store the event so you can use it later
-        deferredPrompt = e;
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent the browser's default install prompt
+  e.preventDefault();
+  // Store the event so you can use it later
+  deferredPrompt = e;
 
-        // Show a custom installation button
-        showInstallButton();
-      });
+  // Show the custom installation button
+  document.getElementById('install-button').style.display = 'block';
+});
 
-      function showInstallButton() {
-        const installButton = document.getElementById('install-button');
-        installButton.style.display = 'block';
+document.getElementById('install-button').addEventListener('click', () => {
+  // Trigger the deferredPrompt to show the browser's install prompt
+  deferredPrompt.prompt();
 
-        installButton.addEventListener('click', () => {
-          // Trigger the deferredPrompt to show the browser's install prompt
-          deferredPrompt.prompt();
-
-          // Wait for the user to respond to the prompt
-          deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-              console.log('PWA installation accepted');
-            } else {
-              console.log('PWA installation declined');
-            }
-
-            // Reset the deferredPrompt
-            deferredPrompt = null;
-          });
-        });
-      }
-
-        if ("serviceWorker" in navigator) {
-          // Use the window load event to keep the page load performant
-
-          window.addEventListener("load", () => {
-              navigator.serviceWorker.register("./sw.js");
-          });
-        }
-      // JavaScript function to redirect to show.html with folderid parameter
-      function redirectToShowPage(folderid) {
-        // Redirect to show.html with the specified folderid
-        window.location.href = `show.html?folderid=${folderid}`;
-      }
+  // Wait for the user to respond to the prompt
+  deferredPrompt.userChoice.then((choiceResult) => {
+    if (choiceResult.outcome === 'accepted') {
+      console.log('PWA installation accepted');
+    } else {
+      console.log('PWA installation declined');
+    }
+  });
+});
     </script>
   </body>
 </html>
