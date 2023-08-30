@@ -7,7 +7,11 @@ function getFolderIdFromURL() {
 const lightbox = document.getElementById('lightbox');
 const lightboxImage = document.getElementById('lightbox-image');
 const closeButton = document.getElementById('close-button');
-
+lightbox.addEventListener('click', (event) => {
+    if (event.target === lightbox) {
+      closeLightbox();
+    }
+  });
 // Function to open the lightbox with the clicked image
 function openLightbox(imageSrc) {
   lightboxImage.src = imageSrc;
