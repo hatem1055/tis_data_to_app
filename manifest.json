@@ -6,8 +6,8 @@
     "scope" : "./",
     "icons": [
     {
-        "src": "l1.png",
-        "sizes": "225x225",
+        "src": "cropped-l2.jpg",
+        "sizes": "499x499",
         "type": "image/png"
     }
     ],
