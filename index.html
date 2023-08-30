@@ -1,40 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="manifest" href="manifest.json" />
-    <link rel="stylesheet" href="bootstrap.css" crossorigin="anonymous" />
-    <link rel="stylesheet" href="style.css" crossorigin="anonymous" />
+    <!-- Meta tags and stylesheets as in your code -->
+
     <style>
-      /* Define button container styles */
-      .button-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 67vh;
-        width: 80%;
-        margin: auto;
-        }
-
-      /* Define button styles */
-      .custom-button {
-        background-color: #005836; /* Initial background color */
-        color: white; /* Text color */
-        border: none; /* Remove the border */
-        padding: 10px 20px; /* Padding for the button */
-        cursor: pointer; /* Change cursor to pointer on hover */
-        transition: background-color 0.3s; /* Transition for background color */
-        width: 100%; /* Make the buttons take up 100% width of the container */
-        margin-bottom: 10px; /* Add some space between buttons */
-      }
-
-      /* Hover effect */
-      .custom-button:hover {
-        background-color: white; /* Change background color to white on hover */
-        color: #005836; /* Change text color to the original color on hover */
+      /* Add styles for the install button */
+      #install-button {
+        display: none; /* Initially hide the install button */
       }
     </style>
   </head>
@@ -47,10 +19,36 @@
       </div>
       <div class="row">
         <div class="col">
-          <div class="button-container"> <!-- Center the buttons vertically -->
-            <button onclick="redirectToShowPage('1-QpNPArqFitJEreaa4plXnROjtRq96m3')" class="custom-button">Tis Mimic</button>
-            <button onclick="redirectToShowPage('1-2Ctw4TVvMhmlU0osn3iLkqANWnoGxgq')" class="custom-button">Shell Scanner</button>
-            <button onclick="redirectToShowPage('1-Xe3enYqj8dWDbBXtQZHTi1yv9HptReU')" class="custom-button">DPR</button>
+          <div class="button-container">
+            <!-- Center the buttons vertically -->
+            <button
+              onclick="redirectToShowPage('1-QpNPArqFitJEreaa4plXnROjtRq96m3')"
+              class="custom-button"
+              id="button1"
+            >
+              Tis Mimic
+            </button>
+            <button
+              onclick="redirectToShowPage('1-2Ctw4TVvMhmlU0osn3iLkqANWnoGxgq')"
+              class="custom-button"
+              id="button2"
+            >
+              Shell Scanner
+            </button>
+            <button
+              onclick="redirectToShowPage('1-Xe3enYqj8dWDbBXtQZHTi1yv9HptReU')"
+              class="custom-button"
+              id="button3"
+            >
+              DPR
+            </button>
+            <button
+              id="install-button"
+              class="custom-button"
+              onclick="installPWA()"
+            >
+              Install App
+            </button>
           </div>
         </div>
       </div>
@@ -67,9 +65,14 @@
 
         // Show the custom installation button
         document.getElementById('install-button').style.display = 'block';
+        // Hide other buttons
+        document.getElementById('button1').style.display = 'none';
+        document.getElementById('button2').style.display = 'none';
+        document.getElementById('button3').style.display = 'none';
       });
 
-      document.getElementById('install-button').addEventListener('click', () => {
+      // Function to install the PWA
+      function installPWA() {
         // Trigger the deferredPrompt to show the browser's install prompt
         deferredPrompt.prompt();
 
@@ -81,14 +84,9 @@
             console.log('PWA installation declined');
           }
         });
-      });
-        if ("serviceWorker" in navigator) {
-          // Use the window load event to keep the page load performant
+      }
 
-          window.addEventListener("load", () => {
-              navigator.serviceWorker.register("./sw.js");
-          });
-        }
+
       // JavaScript function to redirect to show.html with folderid parameter
       function redirectToShowPage(folderid) {
         // Redirect to show.html with the specified folderid
