@@ -15,6 +15,10 @@
   </div>
 
   <div class='container'>
+    <div id="lightbox" class="lightbox">
+        <span class="close-button" id="close-button">×</span>
+        <img src="" id="lightbox-image" alt="Image">
+      </div>
       <div class='header row bg_primary'>
           <div class="site_logo_wrapper col-6">
               <img src='holcim_logo_white.svg' style="width: 109px;"/>
@@ -59,7 +63,7 @@
               if (check && loader.style.display != "none"){
                 document.getElementById("loading-screen").style.display = "none";
               }
-            }, 3000);
+            }, 10000);
           }
         };
 
